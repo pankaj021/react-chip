@@ -13,7 +13,7 @@ class InputFilter extends Component {
     onKeyUpHandler = (event) => {
         let backSpaceCount = this.state.backSpaceCount;
         let selectedItems = document.getElementsByClassName('selected-item');
-        let chipInput = document.getElementsByClassName('chip-input');
+        let chipInput = document.getElementById('chip-input');
         backSpaceCount = selectedItems.length ? backSpaceCount + 1 : 0;
         this.resetDeleteFocus();
         if(backSpaceCount && event.keyCode === 8) {

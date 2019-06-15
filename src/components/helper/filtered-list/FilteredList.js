@@ -6,16 +6,23 @@ import {addItem} from '../../../actions/reactChipActions';
 import './FilteredList.css'
 
 class FilteredList extends Component{
+    constructor(){
+        super();
+        this.state = {isSmallSvg: window.innerWidth < 800};
+    }
     currentPosition = (element) => {
         const rect = element.getBoundingClientRect();
         return {
             left: rect.left,
-            top: rect.top
+            top: rect.top,
+            right: rect.right
         };
     }
 
     componentDidMount(){
-        window.addEventListener('resize', () => { });
+        window.addEventListener('resize', () => { 
+            this.setState({isSmallSvg: window.innerWidth < 800})
+        });
     }
 
     componentDidUpdate(){
@@ -23,16 +30,18 @@ class FilteredList extends Component{
     }
 
     repositionFilteredList = () => {
-        let chipInput = document.getElementById('chip-input');
         let filteredList = document.getElementById('chip-filtered-list');
-        let reactChipWidth = document.getElementById('react-chip').offsetWidth;
+        let reactChip = document.getElementById('react-chip');
         if(filteredList){
-            if((this.currentPosition(chipInput).left > reactChipWidth / 2)) {
-                filteredList.style.right = 0;
-                filteredList.style.left = 'unset';
-            } else {
-                filteredList.style.right = 'unset';
+            let filteredListPos = this.currentPosition(filteredList);
+            let reactChipPos = this.currentPosition(reactChip);
+            if(filteredListPos.left < reactChipPos.left) {
                 filteredList.style.left = 0;
+                filteredList.style.right = 'auto';
+            } 
+            if(filteredListPos.right > reactChipPos.right){
+                filteredList.style.right = 0;
+                filteredList.style.left = 'auto';
             }
         }
     }
@@ -40,6 +49,19 @@ class FilteredList extends Component{
     addItemInList = (id) => {
         document.getElementById('chip-input').value = ''; 
         this.props.addItem(id);
+    }
+
+    bruteForceHighlightText = (name, filterText) => {  // to be replaced with other efficient subString match algo.
+        const nameList = name.toUpperCase().split(filterText.toUpperCase());
+        let travIndex = 0;
+        return nameList.map((val, i) => {
+            const noMatchOffset = val.length + travIndex;
+            const matchOffset = noMatchOffset + filterText.length;
+            if(i >= nameList.length - 1) return name.substring(travIndex, noMatchOffset);
+            let htmlReturn = <span key={i}>{name.substring(travIndex, noMatchOffset)}<span style={{background: 'yellow'}}>{name.substring(noMatchOffset, matchOffset)}</span></span>
+            travIndex = matchOffset;
+            return htmlReturn;
+        })
     }
 
     render(){
@@ -52,20 +74,14 @@ class FilteredList extends Component{
                     filteredList.sort((item1, item2) => item1.id - item2.id)
                     .map( item => {
                         let {id, name, email} = item;
-                        const nameList = filterText && name.split(filterText);
                         return (
                             <div key={id} id={id} className='filtered-item' 
                                 onClick={() => this.addItemInList(id)}>
-                                <SvgLetter letter={name[0]} isSmallSvg={false}/>
-                                <div className='item'>
+                                <div className='wd-50p'><SvgLetter letter={name[0]} isSmallSvg={this.state.isSmallSvg}/></div>
+                                <div className='item wd-100-50p'>
                                     <div className='item-name'>
                                         {
-                                            nameList ? 
-                                            nameList.map((val, i) => {
-                                                if(i >= nameList.length - 1) return val;
-                                                return <span key={i}>{val}<span style={{background: 'yellow'}}>{filterText}</span></span>
-                                            })
-                                            : name
+                                            filterText ? this.bruteForceHighlightText(name, filterText) : name
                                         }
                                     </div>
                                     <div className='item-email'>{email}</div>

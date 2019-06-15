@@ -25,5 +25,14 @@
 .item{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+}
+.wd-50p{
+    max-width: 50px;
+}
+.wd-100-50p{
+    width: calc(100% - 50px )
+}
+.hilightedText{
+    background-color: yellow;
 }
