@@ -1,0 +1,48 @@
+.react-chip {
+    background: #ffffff;
+    margin: 10px;
+    padding: 10px;
+    min-height: 36px;
+    line-height: 1;
+    font-size: 1em;
+}
+.selected-list{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.search-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 8px;
+    border-bottom: 2px solid #cccccc;
+}
+.border-active {
+    border-bottom: 2px solid blue !important;
+}
+.isVisible{
+    display: inline-block !important;
+}
+.isHidden{
+    display: none !important;
+}
+.search-box input {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 0;
+    outline: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    .input-filter, .selected-list, .chip-input{
+       display: block;
+       width: 100%;
+    }
+    .filtered-list {
+        max-width: unset;
+        width: 100% !important;
+        left: 0 !important;
+        top: unset;
+    }
+}

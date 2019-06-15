@@ -1,0 +1,15 @@
+.selected-item {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ccc;
+    border-radius: 25px;
+    padding-right: 10px;
+    margin: 2px;
+    margin-right: 10px;
+}
+.item-name {
+    margin: 0 10px;
+}
+.delete-i{
+    cursor: pointer;
+}

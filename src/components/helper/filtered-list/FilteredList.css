@@ -1,0 +1,29 @@
+.filtered-list {
+    position: absolute;
+    background-color: white;
+    padding: 10px 0px;
+    left: 10px;
+    top: 36px;
+    width: max-content;
+    max-height: 435px;
+    overflow: auto;
+    box-shadow: 0 0 4px 2px rgba(4,4,4,0.15);
+}
+.filtered-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    width: 100%;
+    cursor: pointer;
+}
+.filtered-item:hover{
+    background: #cccccc;
+}
+.item-email{
+    color: #807c7c;
+}
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
